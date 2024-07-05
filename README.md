@@ -9,7 +9,7 @@ Qt Framework: This application is built using the Qt framework. Download and ins
 
 ##Build Instructions:
 
-#Clone the Repository: Use git clone https://github.com/your-username/varnam-tools.git to clone this repository locally.
+#Clone the Repository: Use git clone https://github.com/khumnath/varnam-tools.git to clone this repository locally.
 Navigate to the Project Directory: Use cd varnam-tools to navigate to the project directory.
 Configure Qt Project (if necessary): If you're using a custom Qt development environment, you might need to configure the project using your preferred Qt tool (e.g., Qt Creator).
 #Build the Application: Run qmake followed by make or camke and make to build the application. This will generate an executable file named varnam-tools.
