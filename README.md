@@ -2,6 +2,10 @@
 
 This is a user-friendly graphical user interface (GUI) application designed to simplify your interaction with the Varnam indic text processing system. It streamlines common tasks such as training, testing, transliteration, pattern-word learning, and more.
 
+## ui in action
+
+![Screenshot_varnam-tools_20240706201913](https://github.com/khumnath/varnam-tools/assets/50103558/9d081283-9d54-4969-bc71-dd67d247c1d8)
+
 ##  Prerequisites:
 
 Varnam: Ensure you have the Varnam indic text processing system installed on your system. Refer to the official Varnam documentation for installation instructions.
