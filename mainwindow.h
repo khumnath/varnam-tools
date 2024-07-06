@@ -15,7 +15,6 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-// Custom HTML Dialog class definition
 class CustomHtmlDialog : public QDialog {
     Q_OBJECT
 
@@ -25,9 +24,7 @@ public:
         textBrowser = new QTextBrowser(this);
         closeButton = new QPushButton("Close", this);
 
-        // Set the size of the close button to be smaller
         closeButton->setFixedSize(80, 30);
-
         QHBoxLayout *buttonLayout = new QHBoxLayout();
         buttonLayout->addStretch();
         buttonLayout->addWidget(closeButton);
@@ -37,16 +34,10 @@ public:
         mainLayout->addLayout(buttonLayout);
 
         setLayout(mainLayout);
-
-        // Connect the close button to the dialog's accept slot
         connect(closeButton, &QPushButton::clicked, this, &QDialog::accept);
         setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-        // Set minimum and maximum sizes as needed
-        setMinimumSize(400, 300); // Minimum size for the dialog
-        setMaximumSize(800, 600); // Maximum size for the dialog
-
-        // Set an initial size for the dialog
+        setMinimumSize(400, 300);
+        setMaximumSize(800, 600);
         resize(400, 275);
     }
 
@@ -59,20 +50,12 @@ private:
     QPushButton *closeButton;
 };
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    int varnam_learn_from_file(VarnamHandler* v, char* filePath, LearnStatus** status);
-    int varnam_train_from_file(VarnamHandler* v, char* filePath, LearnStatus** status);
-    int varnam_export(VarnamHandler* v, char* filePath, int exportWordsPerFile);
-    int varnam_import(VarnamHandler* v, char* filePath);
-    char* varnam_get_last_error(VarnamHandler* v);
-    void resetAppState();
-    void showHtmlDialog(); // Declaration of the new method
 
 private slots:
     void on_transliterateButton_clicked();
@@ -84,16 +67,22 @@ private slots:
     void on_trainFromFileButton_clicked();
     void on_exportButton_clicked();
     void on_importButton_clicked();
+    void on_indicNumberCheckBox_toggled(bool checked);
+    void on_dictSuggestionsSpinBox_valueChanged(int value);
+    void on_patternDictSuggestionsSpinBox_valueChanged(int value);
+    void on_tokenizerSuggestionsSpinBox_valueChanged(int value);
+    void on_tokenizerSuggestionsAlwaysCheckBox_toggled(bool checked);
     void vstSelectionChanged(int index);
     void populateVSTSelector();
     void printSuggestions(const std::vector<CSuggestion>& suggestions);
     void updateDebugLabel(QString index);
-    void on_indicNumberCheckBox_toggled(bool checked);
+    void showHtmlDialog();
 
 private:
     Ui::MainWindow *ui;
-    VarnamHandler *varnamHandler; // Replace with your actual VarnamHandler class
+    VarnamHandler *varnamHandler;
     QFileDialog* fileDialog;
+    void updateVarnamConfig();
 };
 
 #endif // MAINWINDOW_H

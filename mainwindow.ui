@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>749</width>
-    <height>770</height>
+    <width>933</width>
+    <height>710</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -28,10 +28,10 @@ QWidget {
   background-color: #f5f5f5; /* Light gray background */
   font-family: Arial, sans-serif; /* Modern font */
 }
+
 QLabel {
   color: #333; /* Darker text for labels */
 }
-
 
 /* Text boxes with blue borders and rounded corners */
 QLineEdit, QTextEdit {
@@ -41,9 +41,10 @@ QLineEdit, QTextEdit {
   background-color: white;
 }
 
+/* Combo box style */
 QComboBox {
   border: 1px solid blue; /* Light gray border for combobox */
-border-radius: 5px;
+  border-radius: 5px;
   padding: 5px;
   background-color: white;
 }
@@ -52,9 +53,59 @@ QCheckBox {
   color: #333; /* Darker text for checkbox */
 }
 
+/* Specific styles for components */
 QLabel#debugLabel {
-  font-weight: bold; /* Bold text for result label */
+  font-weight: bold; /* Bold text for debug label */
 }
+
+
+
+/* Specific styles for QTextEdit */
+QTextEdit {
+  background-color: #ffffff; /* White background */
+  border: 1px solid #cccccc; /* Light gray border */
+  padding: 5px; /* Padding */
+}
+
+/* Specific styles for QSpinBox */
+QSpinBox {
+  padding: 5px; /* Padding */
+  border: 1px solid #cccccc; /* Light gray border */
+  border-radius: 3px; /* Rounded corners */
+  background-color: white; /* White background */
+}
+
+/* Specific styles for QFileDialog */
+QFileDialog {
+  background-color: #ffffff; /* White background */
+  border: 1px solid #cccccc; /* Light gray border */
+}
+
+/* Specific styles for QMessageBox */
+QMessageBox {
+  background-color: #ffffff; /* White background */
+  border: 1px solid #cccccc; /* Light gray border */
+}
+
+/* Specific styles for CustomHtmlDialog */
+CustomHtmlDialog {
+  background-color: #ffffff; /* White background */
+  border: 1px solid #cccccc; /* Light gray border */
+}
+
+/* Specific styles for QMenuBar */
+QMenuBar {
+  background-color: #ffffff; /* White background */
+  border: 1px solid #cccccc; /* Light gray border */
+}
+
+/* Specific styles for QMenu */
+QMenu {
+  background-color: #ffffff; /* White background */
+  border: 1px solid #cccccc; /* Light gray border */
+}
+
+/* Additional component styles can be added as needed */
 </string>
   </property>
   <property name="dockNestingEnabled">
@@ -82,7 +133,7 @@ QLabel#debugLabel {
        <widget class="QComboBox" name="vstSelector">
         <property name="minimumSize">
          <size>
-          <width>97</width>
+          <width>0</width>
           <height>0</height>
          </size>
         </property>
@@ -139,15 +190,45 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="translit_buttons">
-      <item>
-       <widget class="QPushButton" name="transliterateButton">
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Transliterate</string>
+         <string>tokenizer suggestion limit -&gt;</string>
         </property>
        </widget>
       </item>
-      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+      <item row="0" column="6">
+       <widget class="QSpinBox" name="dictSuggestionsSpinBox"/>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>dictionary suggestion limit -&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="tokenizerSuggestionsSpinBox"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>pattern dictionary suggestion limit -&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QSpinBox" name="patternDictSuggestionsSpinBox"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
        <widget class="QCheckBox" name="indicNumberCheckBox">
         <property name="enabled">
          <bool>true</bool>
@@ -160,6 +241,44 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </property>
         <property name="checked">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="tokenizerSuggestionsAlwaysCheckBox">
+        <property name="text">
+         <string>tokenizer suggestion always</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ignoreDuplicateTokenCheckBox">
+        <property name="text">
+         <string>ignore duplicate token</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>22</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="translit_buttons">
+      <item>
+       <widget class="QPushButton" name="transliterateButton">
+        <property name="text">
+         <string>Transliterate</string>
         </property>
        </widget>
       </item>
@@ -186,40 +305,52 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="patterninput">
-      <item>
-       <widget class="QLabel" name="patternLabel">
-        <property name="text">
-         <string>Pattern:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="1">
        <widget class="QLineEdit" name="patternLineEdit">
         <property name="styleSheet">
          <string notr="true">background-color: white;</string>
         </property>
        </widget>
       </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="itrainingwordinput">
-      <item>
+      <item row="0" column="3">
        <widget class="QLabel" name="wordLabel">
         <property name="text">
          <string>Word:</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="0" column="4">
        <widget class="QLineEdit" name="wordLineEdit">
         <property name="styleSheet">
          <string notr="true">background-color: white;</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="patternLabel">
+        <property name="text">
+         <string>Pattern:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>34</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="itrainingwordinput"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="trainingbuttons">

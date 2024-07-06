@@ -36,7 +36,41 @@ public:
         varnam_debug(v, debug);
     }
 
-    void enableIndicNumbers(bool enable) {
+    void updateVarnamConfig(bool enableIndicNumbers,int dictSuggestionsLimit, int patternDictSuggestionsLimit, int tokenizerSuggestionsLimit, bool ignoreDuplicateToken, int dictionaryMatchExact) {
+
+        int err = varnam_config(v, VARNAM_CONFIG_USE_INDIC_DIGITS, enableIndicNumbers ? 1 : 0);
+        if (err != VARNAM_SUCCESS) {
+            throw std::runtime_error("Failed to set Indic numbers configuration: " + std::string(varnam_get_last_error(v)));
+        }
+
+         err = varnam_config(v, VARNAM_CONFIG_SET_DICTIONARY_SUGGESTIONS_LIMIT, dictSuggestionsLimit);
+        if (err != VARNAM_SUCCESS) {
+            throw std::runtime_error("Failed to set dictionary suggestions limit: " + std::string(varnam_get_last_error(v)));
+        }
+
+        err = varnam_config(v, VARNAM_CONFIG_SET_PATTERN_DICTIONARY_SUGGESTIONS_LIMIT, patternDictSuggestionsLimit);
+        if (err != VARNAM_SUCCESS) {
+            throw std::runtime_error("Failed to set pattern dictionary suggestions limit: " + std::string(varnam_get_last_error(v)));
+        }
+
+        err = varnam_config(v, VARNAM_CONFIG_SET_TOKENIZER_SUGGESTIONS_LIMIT, tokenizerSuggestionsLimit);
+        if (err != VARNAM_SUCCESS) {
+            throw std::runtime_error("Failed to set tokenizer suggestions limit: " + std::string(varnam_get_last_error(v)));
+        }
+
+        err = varnam_config(v, VARNAM_CONFIG_IGNORE_DUPLICATE_TOKEN, ignoreDuplicateToken);
+        if (err != VARNAM_SUCCESS) {
+            throw std::runtime_error("Failed to ignore duplicate tokens: " + std::string(varnam_get_last_error(v)));
+        }
+
+        err = varnam_config(v, VARNAM_CONFIG_SET_DICTIONARY_MATCH_EXACT, dictionaryMatchExact);
+        if (err != VARNAM_SUCCESS) {
+            throw std::runtime_error("Failed to set dict suggestions always: " + std::string(varnam_get_last_error(v)));
+        }
+    }
+
+/* number config was first di
+   void enableIndicNumbers(bool enable) {
         int err;
         if (enable) {
             err = varnam_config(v, VARNAM_CONFIG_USE_INDIC_DIGITS, 1);
@@ -46,7 +80,7 @@ public:
         if (err != VARNAM_SUCCESS) {
             throw runtime_error("Failed to set Indic numbers configuration: " + string(varnam_get_last_error(v)));
         }
-    }
+    }*/
 
     void reIndexDictionary() {
         int err = varnam_reindex_dictionary(v);
