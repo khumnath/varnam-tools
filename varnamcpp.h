@@ -1,10 +1,16 @@
 #ifndef VARNAMCPP_H
 #define VARNAMCPP_H
 
+#include "qlabel.h"
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 #include <stdexcept>
+#include "labelstring.h"
+#include <sstream>  // For std::ostringstream
+
+
 extern "C" {
 #include <libgovarnam/libgovarnam.h>
 }
@@ -114,15 +120,23 @@ public:
         cout << "Unlearnt " << word << endl;
     }
 
-    void learnFromFile(const string& filePath) {
+    void learnFromFile(const std::string &filePath, QLabel *outputLabel) {
+        QLabelStreamBuffer labelStream(std::cout, outputLabel);  // Redirect cout to QLabel
+
         LearnStatus* status;
         int err = varnam_learn_from_file(v, const_cast<char*>(filePath.c_str()), &status);
         if (err != VARNAM_SUCCESS) {
-            throw runtime_error("Failed to learn words from file '" + filePath + "': " + string(varnam_get_last_error(v)));
+            throw std::runtime_error("Failed to learn words from file '" + filePath + "': " + std::string(varnam_get_last_error(v)));
         }
-        cout << "Finished learning words: " << status->TotalWords << ". Failed: " << status->FailedWords << endl;
-    }
 
+        // Example of real-time status output
+        for (int i = 0; i < 10; ++i) {
+            std::cout << "Processing: " << i + 1 << "/10..." << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(1));  // Simulate time-consuming process
+        }
+
+        std::cout << "Finished learning words: " << status->TotalWords << ". Failed: " << status->FailedWords << std::endl;
+    }
     void trainFromFile(const string& filePath) {
         LearnStatus* status;
         int err = varnam_train_from_file(v, const_cast<char*>(filePath.c_str()), &status);
@@ -179,5 +193,9 @@ private:
         return result;
     }
 };
+
+
+
+
 
 #endif // VARNAMCPP_H

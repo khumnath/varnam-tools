@@ -40,6 +40,8 @@ else()
     else()
         add_executable(varnam-tools
             ${PROJECT_SOURCES}
+            resources.qrc
+            labelstring.h
 
 
 
