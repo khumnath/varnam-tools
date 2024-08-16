@@ -12,6 +12,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     QString version = varnam_get_version();
     ui->version->setText("Varnam Library Version: " + version + " ");
+    QFile file(":/css/qss.css");
+    if (!file.open(QIODevice::ReadOnly))
+        exit(0);
+
+    QTextStream in(&file);
+    QString css = in.readAll();
+    qApp->setStyleSheet(css);
 
     setWindowFlags(Qt::Window);
 
@@ -191,7 +198,7 @@ void MainWindow::on_unlearnButton_clicked()
     }
 }
 
-void MainWindow::on_learnFromFileButton_clicked()
+void MainWindow::on_learnFromFileButton_clicked() 
 {
     static bool fileSelected = false;
 
@@ -199,20 +206,22 @@ void MainWindow::on_learnFromFileButton_clicked()
         QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Text Files (*.txt);;All Files (*)"));
 
         if (!filePath.isEmpty()) {
-            try {
-                varnamHandler->learnFromFile(filePath.toStdString());
+            QLabel *outputLabel = ui->debugLabel;
 
-                // Process success message (optional)
-                QMessageBox::information(this, tr("Success"), tr("File processing completed successfully."));
-                fileSelected = true;
-                ui->debugLabel->setText("done! ");
-            } catch (const std::runtime_error &e) {
-                ui->debugLabel->setText(QString::fromStdString(e.what()));
-            }
+            std::thread learningThread([=]() {
+                try {
+                    varnamHandler->learnFromFile(filePath.toStdString(), outputLabel);
+                } catch (const std::runtime_error &e) {
+                    QMetaObject::invokeMethod(outputLabel, "setText", Qt::QueuedConnection,
+                                              Q_ARG(QString, QString::fromStdString(e.what())));
+                }
+            });
+
+            learningThread.detach();  // Detach the thread to run independently
+            fileSelected = true;
         }
     } else {
-        // Informative message with potential reset option
-        QMessageBox::information(this, tr("Information"), tr("A file has already been processed. You can restart the application to select a new file."));
+        fileSelected = false;  // Reset to allow reprocessing
     }
 }
 
